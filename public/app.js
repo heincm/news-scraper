@@ -1,3 +1,7 @@
+$(document).on('click', 'p', function () {
+  alert('success')
+})
+
 // Grab the articles as a json
 $.getJSON('/articles', function (data) {
   // For each one
