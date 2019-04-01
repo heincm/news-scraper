@@ -1,0 +1,22 @@
+<h1>saved</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    {{#each whatever}}
+                    {{#if this.saved}}
+                    <h5 class="card-title">{{this.title}}</h5>
+                    <p class="card-text"><a href="{{this.link}}">{{this.link}}</a></p>
+                     <form action="/saved/{{this.id}}?_method=PUT" method="POST">
+                        <input type="submit" name="testing" class="btn btn-primary"/>
+                    </form>
+                    <hr>
+                    {{/if}}
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
