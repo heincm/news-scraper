@@ -5,7 +5,20 @@ const cheerio = require('cheerio')
 module.exports = function (app) {
   // Load index page
   app.get('/', function (req, res) {
-    res.render('index')
+    // Grab every document in the Articles collection
+    db.Article.find({})
+      .then(function (data) {
+        let articleObject = {
+          whatever: data,
+          title: 'Home'
+        }
+
+        res.render('index', articleObject)
+      })
+      .catch(function (err) {
+        // If an error occurred, send it to the client
+        res.json(err)
+      })
   })
 
   // A GET route for scraping the echoJS website
@@ -19,7 +32,6 @@ module.exports = function (app) {
       $('h1.js_entry-title').each(function (i, element) {
         // Save an empty result object
         var result = {}
-
         // Add the text and href of every link, and save them as properties of the result object
         result.title = $(this)
           .children('a')
@@ -75,6 +87,27 @@ module.exports = function (app) {
       })
   })
 
+  app.put('/saved/:id', function (req, res) {
+    db.Article.updateOne({ _id: req.params.id }, { $set: { saved: true } })
+      .then(res.render('index'))
+  })
+
+  app.get('/saved', function (req, res) {
+    db.Article.find({})
+      .then(function (data) {
+        let articleObject = {
+          whatever: data,
+          title: 'Saved'
+        }
+
+        res.render('saved', articleObject)
+      })
+      .catch(function (err) {
+      // If an error occurred, send it to the client
+        res.json(err)
+      })
+  })
+
   // Route for saving/updating an Article's associated Note
   app.post('/articles/:id', function (req, res) {
     // Create a new note and pass the req.body to the entry
@@ -88,23 +121,6 @@ module.exports = function (app) {
       .then(function (dbArticle) {
         // If we were able to successfully update an Article, send it back to the client
         res.json(dbArticle)
-      })
-      .catch(function (err) {
-        // If an error occurred, send it to the client
-        res.json(err)
-      })
-  })
-
-  // test putting stuff on page
-  app.get('/display', function (req, res) {
-    // Grab every document in the Articles collection
-    db.Article.find({})
-      .then(function (data) {
-        let articleObject = {
-          whatever: data
-        }
-
-        res.render('display', articleObject)
       })
       .catch(function (err) {
         // If an error occurred, send it to the client
