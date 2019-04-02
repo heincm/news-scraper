@@ -1,57 +1,50 @@
-<div class="jumbotron jumbotron-fluid">
-    <div class="container">
-        <h1 class="display-4">Totally Legit News Scraper</h1>
-        <ul class="nav">
-            <li class="nav-item">
-                <a class="nav-link" href="/">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" href="#">Saved Articles</a>
-            </li>
-        </ul>
-    </div>
-</div>
-
 <div class="container">
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-8">
             <div class="card">
                 <div class="card-body">
                     {{#each whatever}}
                     {{#if this.saved}}
                     <h5 class="card-title">{{this.title}}</h5>
                     <p class="card-text"><a href="{{this.link}}">{{this.link}}</a></p>
-                     <form action="/saved/{{this.id}}?_method=PUT" method="POST">
-                        <input type="submit" name="testing" class="btn btn-primary"/>
-                    </form>
+                    {{!-- <form action="/articles/{{this.id}}?_method=PUT" method="POST"> --}}
+                        <input type="submit" class="btn btn-primary makeNote" value="Article Notes" data-id="{{this.id}}"/>
+                    {{!-- </form> --}}
                     <hr>
                     {{/if}}
                     {{/each}}
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
- <!-- Modal -->
-        <div class="modal fade" id="modal-{{this.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modal">Meet your new best friend!</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div id="small">
-                            <img id="match-image">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-body" id="notes">
+                    <p>Notes</p>
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modal-{{this.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal">Meet your new best friend!</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="small">
+                    <img id="match-image">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
