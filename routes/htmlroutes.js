@@ -52,8 +52,8 @@ module.exports = function (app) {
           })
       })
 
-      // Send a message to the client
-      res.send('Scrape Complete')
+      // reload home page
+      res.redirect('/')
     })
   })
 
@@ -89,9 +89,10 @@ module.exports = function (app) {
 
   app.put('/saved/:id', function (req, res) {
     db.Article.updateOne({ _id: req.params.id }, { $set: { saved: true } })
-      .then(res.render('index'))
+      .then(res.redirect('/'))
   })
 
+  // Route to show all saved articles
   app.get('/saved', function (req, res) {
     db.Article.find({})
       .then(function (data) {
@@ -99,7 +100,6 @@ module.exports = function (app) {
           whatever: data,
           title: 'Saved'
         }
-
         res.render('saved', articleObject)
       })
       .catch(function (err) {
